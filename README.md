@@ -26,6 +26,8 @@ My project includes the following files:
 * model_track2.h5   containing a trained convolution neural network for track 2
 * behavior_clone.ipynb  jupyter notebook to visualize each step
 * util.py   for utility functions
+* video.mp4 video export of simulation on track 1. Youtube links to video exports for both tracks can be found above.
+
 
 ## Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
