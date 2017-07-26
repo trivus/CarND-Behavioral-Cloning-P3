@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+
 def rgb2yuv(image):
     return cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
 
@@ -19,9 +20,12 @@ def random_brightness(image):
 
 
 def random_shear(image, steering, shear_range):
+    '''
+    source: http://github.com/ksakmann/CarND-BehavioralCloning/blob/master/model.ipynb
+    :return: 
+    '''
     rows, cols, ch = image.shape
     dx = np.random.randint(-shear_range, shear_range + 1)
-    #    print('dx',dx)
     random_point = [cols / 2 + dx, rows / 2]
     pts1 = np.float32([[0, rows], [cols, rows], [cols / 2, rows / 2]])
     pts2 = np.float32([[0, rows], [cols, rows], random_point])
@@ -29,5 +33,4 @@ def random_shear(image, steering, shear_range):
     M = cv2.getAffineTransform(pts1, pts2)
     image = cv2.warpAffine(image, M, (cols, rows), borderMode=1)
     steering += dsteering
-
     return image, steering
