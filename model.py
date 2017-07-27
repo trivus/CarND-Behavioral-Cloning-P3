@@ -2,7 +2,7 @@ import csv
 import cv2
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Conv2D, Cropping2D
+from keras.layers import Flatten, Dense, Lambda, Conv2D, Cropping2D, BatchNormalization
 from keras.callbacks import TensorBoard
 from keras.optimizers import Adam
 from keras.models import load_model
@@ -72,13 +72,20 @@ def build_model(file_path, old_model=False):
         model.add(Cropping2D(cropping=((60, 20), (0, 0)), input_shape=(160, 320, 3)))
         model.add(Lambda(lambda x: (x / 255.) - .5))
         model.add(Conv2D(24, (5, 5), strides=(2, 2), padding='same', activation='relu'))
+        model.add(BatchNormalization())
         model.add(Conv2D(36, (5, 5), strides=(2, 2), padding='same', activation='relu'))
+        model.add(BatchNormalization())
         model.add(Conv2D(48, (5, 5), strides=(2, 2), padding='same', activation='relu'))
+        model.add(BatchNormalization())
         model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+        model.add(BatchNormalization())
         model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+        model.add(BatchNormalization())
         model.add(Flatten())
         model.add(Dense(100, activation='relu'))
+        model.add(BatchNormalization())
         model.add(Dense(50, activation='relu'))
+        model.add(BatchNormalization())
         model.add(Dense(10, activation='relu'))
         model.add(Dense(1))
     return model
@@ -102,7 +109,7 @@ def train_model(model, data_path):
     tb_callback = TensorBoard(log_dir='log')
     train_generator = generate_train_batch(train_lines, data_path+'IMG/', batch_size=100)
     valid_generator = generate_train_batch(valid_lines, data_path+'IMG/', batch_size=100)
-    model.fit_generator(train_generator, steps_per_epoch=len(lines)/100, epochs=2,
+    model.fit_generator(train_generator, steps_per_epoch=len(lines)/100, epochs=1,
                         validation_data=valid_generator, validation_steps=10,
                         callbacks=[tb_callback])
 

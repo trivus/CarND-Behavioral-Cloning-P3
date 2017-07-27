@@ -62,6 +62,7 @@ I used [Nvidia's model](http://devblogs.nvidia.com/parallelforall/deep-learning-
 | Total params: 2,697,019.0 | Trainable params: 2,697,019.0  | Non-trainable params: 0.0 |
 
 The model includes RELU layers to introduce nonlinearity, and the data is cropped and normalized in the model using Keras layers (code line 73).
+I also added batch normalization layers between conv and dense layers to reduce overfitting.
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 97-104).
 The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
